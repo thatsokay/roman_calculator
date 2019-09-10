@@ -50,7 +50,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           }
         });
       },
-      child: Text(value, style: TextStyle(fontSize: 18.0)),
+      child: Text(value, style: TextStyle(fontSize: 24.0)),
     );
   }
 
@@ -107,7 +107,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _operation = value;
         });
       },
-      child: Text(value, style: TextStyle(fontSize: 18.0)),
+      child: Text(value, style: TextStyle(fontSize: 24.0)),
     );
   }
 
@@ -122,7 +122,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _input = _input.substring(0, max(_input.length - 1, 0));
         });
       },
-      child: Text('Del', style: TextStyle(fontSize: 18.0)),
+      child: Text('Del', style: TextStyle(fontSize: 24.0)),
     );
   }
 
@@ -138,7 +138,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _operation = '+';
         });
       },
-      child: Text('Clear', style: TextStyle(fontSize: 18.0)),
+      child: Text('Clear', style: TextStyle(fontSize: 24.0)),
     );
   }
 
