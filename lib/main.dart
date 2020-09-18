@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Roman Calculator',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        fontFamily: 'Roboto Slab',
       ),
       home: RomanCalculator(title: 'Roman Calculator'),
     );
@@ -50,7 +51,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           }
         });
       },
-      child: Text(value, style: TextStyle(fontSize: 24.0)),
+      child: Text(value, style: TextStyle(fontSize: 32.0)),
     );
   }
 
@@ -107,7 +108,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _operation = value;
         });
       },
-      child: Text(value, style: TextStyle(fontSize: 24.0)),
+      child: Text(value, style: TextStyle(fontSize: 32.0)),
     );
   }
 
@@ -122,7 +123,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _input = _input.substring(0, max(_input.length - 1, 0));
         });
       },
-      child: Text('Del', style: TextStyle(fontSize: 24.0)),
+      child: Text('Del', style: TextStyle(fontSize: 32.0)),
     );
   }
 
@@ -138,7 +139,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _operation = '+';
         });
       },
-      child: Text('Clear', style: TextStyle(fontSize: 24.0)),
+      child: Text('Clear', style: TextStyle(fontSize: 32.0)),
     );
   }
 
@@ -180,7 +181,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
                     ? (generateRoman(_result) ?? 'nope')
                     : _input),
             key: Key('display'),
-            style: TextStyle(fontSize: 48.0, height: 1.5),
+            style: TextStyle(fontSize: 60.0, height: 1.5),
           ),
           ...generateButtons(),
         ],

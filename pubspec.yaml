@@ -70,3 +70,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Roboto Slab
+      fonts:
+        - asset: fonts/RobotoSlab-Regular.ttf
+        - asset: fonts/RobotoSlab-Medium.ttf
+          weight: 500
