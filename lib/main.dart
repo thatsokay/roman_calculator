@@ -143,9 +143,8 @@ class _RomanCalculatorState extends State<RomanCalculator> {
     );
   }
 
-  Column generateButtons() {
-    /* Returns a list of expanded rows of buttons.
-     */
+  /// Returns a table of buttons.
+  Table generateButtons() {
     var buttons = [
       [deleteButton(), clearButton(), operationButton('÷')],
       [numberButton('D'), numberButton('M'), operationButton('×')],
@@ -154,16 +153,15 @@ class _RomanCalculatorState extends State<RomanCalculator> {
       [numberButton('N'), numberButton('I'), operationButton('=')],
     ];
 
-    return Column(
+    return Table(
       children: buttons
-          .map(
-            (row) => Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: row.map((button) => Expanded(child: button)).toList(),
-              ),
-            ),
-          )
+          .map((row) => TableRow(
+              children: row
+                  .map((button) => AspectRatio(
+                        aspectRatio: 6 / 5,
+                        child: button,
+                      ))
+                  .toList()))
           .toList(),
     );
   }
@@ -173,19 +171,28 @@ class _RomanCalculatorState extends State<RomanCalculator> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Container(
-            child: Text(
-              _error
-                  ? 'nope'
-                  : (_input.isEmpty
-                      ? (generateRoman(_result) ?? 'nope')
-                      : _input),
-              key: Key('display'),
-              style: TextStyle(fontSize: 60.0, height: 1.5),
+          Expanded(
+            child: Container(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  _error
+                      ? 'nope'
+                      : (_input.isEmpty
+                          ? (generateRoman(_result) ?? 'nope')
+                          : _input),
+                  key: Key('display'),
+                  style: TextStyle(fontSize: 60.0, height: 1.5),
+                ),
+              ),
+              padding: EdgeInsets.only(
+                top: 24, // Notification bar height
+                left: 36,
+                right: 36,
+              ),
             ),
-            padding: EdgeInsets.only(top: 24),
           ),
-          Expanded(child: generateButtons()),
+          generateButtons(),
         ],
       ),
     );
