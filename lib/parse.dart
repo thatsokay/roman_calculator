@@ -24,10 +24,8 @@ bool isPowerOfTen(int number) {
   return (log(number) / ln10) % 1 == 0;
 }
 
+/// Parses a Roman numeral string and returns its integer value or null if it is invalid.
 int parseRoman(String roman) {
-  /* Parses a Roman numeral string and returns its integer value or null if it
-   * is invalid.
-   */
   if (roman.isEmpty) {
     return null;
   }
@@ -94,10 +92,8 @@ int parseRoman(String roman) {
   return values.reduce((a, b) => a + b);
 }
 
+/// Returns the roman representation of the given number or null if it cannot be represented.
 String generateRoman(int number) {
-  /* Returns the roman representation of the given number or null if it cannot
-   * be represented.
-   */
   if (number == 0) {
     return 'N';
   }

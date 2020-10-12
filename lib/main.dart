@@ -35,10 +35,8 @@ class _RomanCalculatorState extends State<RomanCalculator> {
   String _input = ''; // Roman numeral input
   String _operation = '+'; // Last selected operation
 
+  /// Returns a button that displays the given string and appends the calculator input with the given string when pressed.
   FlatButton numberButton(String value) {
-    /* Returns a button that displays the given string and appends the
-     * calculator input with the given string when pressed.
-     */
     return FlatButton(
       onPressed: () {
         setState(() {
@@ -55,10 +53,8 @@ class _RomanCalculatorState extends State<RomanCalculator> {
     );
   }
 
+  /// Returns a button that displays the given string and sets the calculator operation to the given string when pressed.
   FlatButton operationButton(String value) {
-    /* Returns a button that displays the given string and sets the calculator
-     * operation to the given string when pressed.
-     */
     return FlatButton(
       onPressed: () {
         setState(() {
@@ -112,10 +108,8 @@ class _RomanCalculatorState extends State<RomanCalculator> {
     );
   }
 
+  /// Returns a delete button that removes the rightmost character from the input string.
   FlatButton deleteButton() {
-    /* Returns a delete button that removes the rightmost character from the
-     * input string.
-     */
     return FlatButton(
       onPressed: () {
         setState(() {
@@ -182,7 +176,13 @@ class _RomanCalculatorState extends State<RomanCalculator> {
                           ? (generateRoman(_result) ?? 'nope')
                           : _input),
                   key: Key('display'),
-                  style: TextStyle(fontSize: 60.0, height: 1.5),
+                  style: TextStyle(
+                    fontSize: 60.0,
+                    height: 1.5,
+                    color: _input.isNotEmpty && parseRoman(_input) == null
+                        ? Colors.red.shade700
+                        : Colors.black,
+                  ),
                 ),
               ),
               padding: EdgeInsets.only(
@@ -190,6 +190,9 @@ class _RomanCalculatorState extends State<RomanCalculator> {
                 left: 36,
                 right: 36,
               ),
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(color: Colors.black12, blurRadius: 12)
+              ]),
             ),
           ),
           generateButtons(),
