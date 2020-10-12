@@ -143,47 +143,49 @@ class _RomanCalculatorState extends State<RomanCalculator> {
     );
   }
 
-  List<Expanded> generateButtons() {
+  Column generateButtons() {
     /* Returns a list of expanded rows of buttons.
      */
-    var buttonTexts = [
-      [numberButton('M'), deleteButton(), operationButton('÷')],
-      [numberButton('C'), numberButton('D'), operationButton('×')],
-      [numberButton('X'), numberButton('L'), operationButton('−')],
-      [numberButton('I'), numberButton('V'), operationButton('+')],
-      [numberButton('N'), clearButton(), operationButton('=')],
+    var buttons = [
+      [deleteButton(), clearButton(), operationButton('÷')],
+      [numberButton('D'), numberButton('M'), operationButton('×')],
+      [numberButton('L'), numberButton('C'), operationButton('−')],
+      [numberButton('V'), numberButton('X'), operationButton('+')],
+      [numberButton('N'), numberButton('I'), operationButton('=')],
     ];
 
-    return buttonTexts
-        .map(
-          (row) => Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: row.map((button) => Expanded(child: button)).toList(),
+    return Column(
+      children: buttons
+          .map(
+            (row) => Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: row.map((button) => Expanded(child: button)).toList(),
+              ),
             ),
-          ),
-        )
-        .toList();
+          )
+          .toList(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Column(
         children: <Widget>[
-          Text(
-            _error
-                ? 'nope'
-                : (_input.isEmpty
-                    ? (generateRoman(_result) ?? 'nope')
-                    : _input),
-            key: Key('display'),
-            style: TextStyle(fontSize: 60.0, height: 1.5),
+          Container(
+            child: Text(
+              _error
+                  ? 'nope'
+                  : (_input.isEmpty
+                      ? (generateRoman(_result) ?? 'nope')
+                      : _input),
+              key: Key('display'),
+              style: TextStyle(fontSize: 60.0, height: 1.5),
+            ),
+            padding: EdgeInsets.only(top: 24),
           ),
-          ...generateButtons(),
+          Expanded(child: generateButtons()),
         ],
       ),
     );
