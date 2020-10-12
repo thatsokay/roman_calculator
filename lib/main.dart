@@ -31,7 +31,7 @@ class RomanCalculator extends StatefulWidget {
 
 class _RomanCalculatorState extends State<RomanCalculator> {
   bool _error = false; // Displays error message if true
-  int _result = 0; // Current calculated result
+  int _result; // Current calculated result
   String _input = ''; // Roman numeral input
   String _operation = '+'; // Last selected operation
 
@@ -44,7 +44,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _input += value;
           if (_operation == '=') {
             // Reset calculator if previous operation was an evaluation
-            _result = 0;
+            _result = null;
             _operation = '+';
           }
         });
@@ -75,16 +75,18 @@ class _RomanCalculatorState extends State<RomanCalculator> {
             return;
           }
 
+          var result = _result ?? 0;
+
           switch (_operation) {
             // Apply last operation on parsed input
             case '+':
-              _result += parseResult;
+              _result = result + parseResult;
               break;
             case '−':
-              _result -= parseResult;
+              _result = result - parseResult;
               break;
             case '×':
-              _result *= parseResult;
+              _result = result * parseResult;
               break;
             case '÷':
               if (parseResult == 0) {
@@ -92,7 +94,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
                 _result = 0;
                 break;
               }
-              _result = _result ~/ parseResult;
+              _result = result ~/ parseResult;
               break;
             case '=':
               break;
@@ -128,7 +130,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
       onPressed: () {
         setState(() {
           _error = false;
-          _result = 0;
+          _result = null;
           _input = '';
           _operation = '+';
         });
@@ -172,9 +174,11 @@ class _RomanCalculatorState extends State<RomanCalculator> {
                 child: Text(
                   _error
                       ? 'nope'
-                      : (_input.isEmpty
-                          ? (generateRoman(_result) ?? 'nope')
-                          : _input),
+                      : _input.isNotEmpty
+                          ? _input
+                          : _result == null
+                              ? ''
+                              : generateRoman(_result) ?? 'nope',
                   key: Key('display'),
                   style: TextStyle(
                     fontSize: 60.0,
