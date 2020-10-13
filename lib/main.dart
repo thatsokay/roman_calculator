@@ -180,6 +180,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
                               ? ''
                               : generateRoman(_result) ?? 'nope',
                   key: Key('display'),
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                     fontSize: 60.0,
                     height: 1.5,
