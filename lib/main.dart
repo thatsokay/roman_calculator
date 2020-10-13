@@ -65,43 +65,16 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           }
 
           var parseResult = parseRoman(_input);
-
           if (parseResult == null) {
             // Show error and reset calculator on parsing error
             _error = true;
             _input = '';
-            _result = 0;
+            _result = null;
             _operation = Operation.add;
             return;
           }
 
-          var result = _result ?? 0;
-
-          switch (_operation) {
-            // Apply last operation on parsed input
-            case Operation.add:
-              _result = result + parseResult;
-              break;
-            case Operation.subtract:
-              _result = result - parseResult;
-              break;
-            case Operation.multiply:
-              _result = result * parseResult;
-              break;
-            case Operation.divide:
-              if (parseResult == 0) {
-                // Dividing by 0 returns 0
-                _result = 0;
-                break;
-              }
-              _result = result ~/ parseResult;
-              break;
-            case Operation.equals:
-              break;
-            default:
-              throw 'Invalid operation';
-          }
-
+          _result = _operation.operate(_result ?? 0, parseResult);
           _input = '';
           _operation = operation;
         });
@@ -245,7 +218,28 @@ extension OperationExtension on Operation {
       case Operation.equals:
         return '=';
       default:
-        return '';
+        throw 'Invalid operation';
+    }
+  }
+
+  int operate(int a, int b) {
+    switch (this) {
+      case Operation.add:
+        return a + b;
+      case Operation.subtract:
+        return a - b;
+      case Operation.multiply:
+        return a * b;
+      case Operation.divide:
+        if (b == 0) {
+          // Dividing by 0 returns 0
+          return 0;
+        }
+        return a ~/ b;
+      case Operation.equals:
+        return a;
+      default:
+        throw 'Invalid operation';
     }
   }
 }
