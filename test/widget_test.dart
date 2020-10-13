@@ -17,7 +17,7 @@ void main() {
   testWidgets(
     'Tests input, delete, and clear buttons',
     (WidgetTester tester) async {
-      void expectTapToDisplay(String tap, String display) async {
+      Future<void> expectTapToDisplay(String tap, String display) async {
         await tester.tap(find.text(tap));
         await tester.pump();
         expectDisplayEquals(display);
