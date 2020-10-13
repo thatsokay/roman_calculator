@@ -3,9 +3,9 @@ import 'dart:math';
 
 import 'parse.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(RomanCalculatorApp());
 
-class MyApp extends StatelessWidget {
+class RomanCalculatorApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,8 @@ class _RomanCalculatorState extends State<RomanCalculator> {
   String _operation = '+'; // Last selected operation
 
   /// Returns a button that displays the given string and appends the calculator input with the given string when pressed.
-  FlatButton numberButton(String value) {
-    return FlatButton(
+  CalculatorButton numberButton(String value) {
+    return CalculatorButton(
       onPressed: () {
         setState(() {
           _error = false;
@@ -49,13 +49,13 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           }
         });
       },
-      child: Text(value, style: TextStyle(fontSize: 32.0)),
+      label: value,
     );
   }
 
   /// Returns a button that displays the given string and sets the calculator operation to the given string when pressed.
-  FlatButton operationButton(String value) {
-    return FlatButton(
+  CalculatorButton operationButton(String value) {
+    return CalculatorButton(
       onPressed: () {
         setState(() {
           if (_input.isEmpty) {
@@ -106,27 +106,26 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _operation = value;
         });
       },
-      child: Text(value, style: TextStyle(fontSize: 32.0)),
-    );
+      label: value,
+    ); // CalculatorButton
   }
 
   /// Returns a delete button that removes the rightmost character from the input string.
-  FlatButton deleteButton() {
-    return FlatButton(
+  CalculatorButton deleteButton() {
+    return CalculatorButton(
       onPressed: () {
         setState(() {
           _error = false;
           _input = _input.substring(0, max(_input.length - 1, 0));
         });
       },
-      child: Text('Del', style: TextStyle(fontSize: 32.0)),
+      label: 'Del',
     );
   }
 
-  FlatButton clearButton() {
-    /* Returns a clear button that sets the input to an empty string.
-     */
-    return FlatButton(
+  /// Returns a clear button that sets the input to an empty string.
+  CalculatorButton clearButton() {
+    return CalculatorButton(
       onPressed: () {
         setState(() {
           _error = false;
@@ -135,7 +134,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _operation = '+';
         });
       },
-      child: Text('Clear', style: TextStyle(fontSize: 32.0)),
+      label: 'Clear',
     );
   }
 
@@ -203,6 +202,21 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           generateButtons(),
         ],
       ),
+    );
+  }
+}
+
+class CalculatorButton extends StatelessWidget {
+  final void Function() onPressed;
+  final String label;
+
+  const CalculatorButton({this.onPressed, this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: onPressed,
+      child: Text(label, style: TextStyle(fontSize: 32.0)),
     );
   }
 }
