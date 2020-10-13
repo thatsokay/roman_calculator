@@ -23,15 +23,15 @@ void main() {
         expectDisplayEquals(display);
       }
 
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(RomanCalculatorApp());
 
       expectDisplayEquals('N');
 
-      await expectTapToDisplay('I', 'I');
-      await expectTapToDisplay('V', 'IV');
-      await expectTapToDisplay('X', 'IVX');
-      await expectTapToDisplay('Del', 'IV');
-      await expectTapToDisplay('Clear', 'N');
+      expectTapToDisplay('I', 'I');
+      expectTapToDisplay('V', 'IV');
+      expectTapToDisplay('X', 'IVX');
+      expectTapToDisplay('Del', 'IV');
+      expectTapToDisplay('Clear', 'N');
     },
   );
 }

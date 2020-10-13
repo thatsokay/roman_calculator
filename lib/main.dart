@@ -33,7 +33,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
   bool _error = false; // Displays error message if true
   int _result; // Current calculated result
   String _input = ''; // Roman numeral input
-  String _operation = '+'; // Last selected operation
+  Operation _operation = Operation.add; // Last selected operation
 
   /// Returns a button that displays the given string and appends the calculator input with the given string when pressed.
   CalculatorButton numberButton(String value) {
@@ -42,10 +42,10 @@ class _RomanCalculatorState extends State<RomanCalculator> {
         setState(() {
           _error = false;
           _input += value;
-          if (_operation == '=') {
+          if (_operation == Operation.equals) {
             // Reset calculator if previous operation was an evaluation
             _result = null;
-            _operation = '+';
+            _operation = Operation.add;
           }
         });
       },
@@ -54,13 +54,13 @@ class _RomanCalculatorState extends State<RomanCalculator> {
   }
 
   /// Returns a button that displays the given string and sets the calculator operation to the given string when pressed.
-  CalculatorButton operationButton(String value) {
+  CalculatorButton operationButton(Operation operation) {
     return CalculatorButton(
       onPressed: () {
         setState(() {
           if (_input.isEmpty) {
             // Just change operation if empty input
-            _operation = value;
+            _operation = operation;
             return;
           }
 
@@ -71,7 +71,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
             _error = true;
             _input = '';
             _result = 0;
-            _operation = '+';
+            _operation = Operation.add;
             return;
           }
 
@@ -79,16 +79,16 @@ class _RomanCalculatorState extends State<RomanCalculator> {
 
           switch (_operation) {
             // Apply last operation on parsed input
-            case '+':
+            case Operation.add:
               _result = result + parseResult;
               break;
-            case '−':
+            case Operation.subtract:
               _result = result - parseResult;
               break;
-            case '×':
+            case Operation.multiply:
               _result = result * parseResult;
               break;
-            case '÷':
+            case Operation.divide:
               if (parseResult == 0) {
                 // Dividing by 0 returns 0
                 _result = 0;
@@ -96,17 +96,17 @@ class _RomanCalculatorState extends State<RomanCalculator> {
               }
               _result = result ~/ parseResult;
               break;
-            case '=':
+            case Operation.equals:
               break;
             default:
               throw 'Invalid operation';
           }
 
           _input = '';
-          _operation = value;
+          _operation = operation;
         });
       },
-      label: value,
+      label: operation.label,
     ); // CalculatorButton
   }
 
@@ -131,7 +131,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
           _error = false;
           _result = null;
           _input = '';
-          _operation = '+';
+          _operation = Operation.add;
         });
       },
       label: 'Clear',
@@ -141,11 +141,19 @@ class _RomanCalculatorState extends State<RomanCalculator> {
   /// Returns a table of buttons.
   Table generateButtons() {
     var buttons = [
-      [deleteButton(), clearButton(), operationButton('÷')],
-      [numberButton('D'), numberButton('M'), operationButton('×')],
-      [numberButton('L'), numberButton('C'), operationButton('−')],
-      [numberButton('V'), numberButton('X'), operationButton('+')],
-      [numberButton('N'), numberButton('I'), operationButton('=')],
+      [deleteButton(), clearButton(), operationButton(Operation.divide)],
+      [
+        numberButton('D'),
+        numberButton('M'),
+        operationButton(Operation.multiply)
+      ],
+      [
+        numberButton('L'),
+        numberButton('C'),
+        operationButton(Operation.subtract)
+      ],
+      [numberButton('V'), numberButton('X'), operationButton(Operation.add)],
+      [numberButton('N'), numberButton('I'), operationButton(Operation.equals)],
     ];
 
     return Table(
@@ -218,5 +226,26 @@ class CalculatorButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(label, style: TextStyle(fontSize: 32.0)),
     );
+  }
+}
+
+enum Operation { add, subtract, multiply, divide, equals }
+
+extension OperationExtension on Operation {
+  String get label {
+    switch (this) {
+      case Operation.add:
+        return '+';
+      case Operation.subtract:
+        return '−';
+      case Operation.multiply:
+        return '×';
+      case Operation.divide:
+        return '÷';
+      case Operation.equals:
+        return '=';
+      default:
+        return '';
+    }
   }
 }
