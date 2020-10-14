@@ -31,9 +31,9 @@ class RomanCalculator extends StatefulWidget {
 }
 
 class _RomanCalculatorState extends State<RomanCalculator> {
-  bool _error = false; // Displays error message if true
   int _result; // Current calculated result
   String _input = ''; // Roman numeral input
+  bool _error = false; // Displays error message if true
   Operation _operation = Operations.add; // Last selected operation
 
   /// Returns a button that displays the given string and appends the calculator input with the given string when pressed.
@@ -154,27 +154,7 @@ class _RomanCalculatorState extends State<RomanCalculator> {
         children: <Widget>[
           Expanded(
             child: Container(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  _error
-                      ? 'nope'
-                      : _input.isNotEmpty
-                          ? _input
-                          : _result == null
-                              ? ''
-                              : generateRoman(_result) ?? 'nope',
-                  key: Key('display'),
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 60.0,
-                    height: 1.5,
-                    color: _input.isNotEmpty && parseRoman(_input) == null
-                        ? Colors.red.shade700
-                        : Colors.black,
-                  ),
-                ),
-              ),
+              child: Display(result: _result, input: _input, error: _error),
               padding: EdgeInsets.only(
                 top: 24, // Notification bar height
                 left: 36,
@@ -203,6 +183,46 @@ class CalculatorButton extends StatelessWidget {
     return FlatButton(
       onPressed: onPressed,
       child: Text(label, style: TextStyle(fontSize: 32.0)),
+    );
+  }
+}
+
+class Display extends StatelessWidget {
+  final int result; // Current calculated result
+  final String input; // Roman numeral input
+  final bool error; // Displays error message if true
+
+  const Display({this.result, this.input, this.error});
+
+  String displayText() {
+    if (this.error) {
+      return 'nope';
+    }
+    if (input.isNotEmpty) {
+      return input;
+    }
+    if (result == null) {
+      return '';
+    }
+    return generateRoman(result) ?? 'nope';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Text(
+        displayText(),
+        key: Key('display'),
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontSize: 60.0,
+          height: 1.5,
+          color: input.isNotEmpty && parseRoman(input) == null
+              ? Colors.red.shade700
+              : Colors.black,
+        ),
+      ),
     );
   }
 }
